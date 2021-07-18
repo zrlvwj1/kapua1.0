@@ -119,58 +119,76 @@
 </template>
 
 <script>
-// import "./asset/iconfont/iconfont.css";
 export default {
   data() {
     return {
       asideWidth: 250,
       flag: true,
-      selectindex: 1,
-    };
+      selectindex: 1
+    }
   },
   created() {
-    this.selectindex = window.sessionStorage.getItem("seletedItem");
+    this.selectindex = window.sessionStorage.getItem('seletedItem')
   },
   methods: {
     changeAsideWidth() {
       if (this.asideWidth == 75) {
-        this.asideWidth = 250;
-        this.flag = true;
+        this.asideWidth = 250
+        this.flag = true
       } else {
-        this.asideWidth = 75;
-        this.flag = false;
+        this.asideWidth = 75
+        this.flag = false
       }
     },
     selectItem(index) {
-      this.selectindex = index;
+      this.selectindex = index
       switch (index) {
         case 1:
-          this.$router.push("/welcome");
-          break;
+          this.$router.push('/welcome')
+          break
         case 2:
-          this.$router.push("/device");
-          break;
+          this.$router.push('/device')
+          break
         case 3:
-          this.$router.push("/user");
-          break;
+          this.$router.push('/user')
+          break
         case 4:
-          this.$router.push("/roles");
-          break;
+          this.$router.push('/roles')
+          break
         case 5:
-          this.$router.push("/setting");
-          break;
+          this.$router.push('/setting')
+          break
         case 6:
-          this.$router.push("/subaccount");
-          break;
+          this.$router.push('/subaccount')
+          break
       }
-      window.sessionStorage.setItem("selectedItem", index);
+      window.sessionStorage.setItem('selectedItem', index)
     },
     //登出功能
     loginout() {
-      this.$router.push("/login");
-    },
-  },
-};
+      this.$confirm('此操作将登出, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          this.$message({
+            type: 'success',
+            message: '登出成功!'
+          })
+          window.localStorage.removeItem('token')
+          window.localStorage.removeItem('scopeId')
+          this.$router.push('/login')
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消登出'
+          })
+        })
+    }
+  }
+}
 </script>
 <style>
 .font-white {

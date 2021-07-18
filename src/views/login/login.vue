@@ -1,9 +1,12 @@
 <template>
   <div class="login-view">
+    <!-- logo位置 -->
     <div class="kapua-logo-container"></div>
+    <!-- form表单 -->
     <div class="login-form-container">
       <div class="container">
         <div class="row">
+          <!-- 左侧登录表单 -->
           <div class="col-form1">
             <div
               class="form-title"
@@ -34,6 +37,7 @@
                   type="password"
                 ></el-input>
               </div>
+              <!-- 登录按钮 -->
               <el-button
                 type="primary"
                 size="small"
@@ -51,6 +55,7 @@
               >
             </form>
           </div>
+          <!-- 右侧文字说明 -->
           <div class="col-form2">
             <p>
               <strong>欢迎来到易道工业物联网管理平台!</strong> 本平台基于<a
@@ -68,40 +73,53 @@
 </template>
 <script>
 // import { defineComponent } from "@vue/composition-api";
-
+import Request from '../../utils/request'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 export default {
   data() {
     return {
-      userForm: { username: "", password: "" },
-    };
+      userForm: { username: '', password: '' }
+    }
   },
   methods: {
-    async sendForm() {
-      this.$router.push("/");
-      const { data: res } = await this.$http.post(
-        "/authentication/user",
-        this.userForm
-      );
-      if (res.meta.status == 200) {
-        this.$message({
-          message: this.loginform.username + ",欢迎登录",
-          type: "success",
-        });
-        window.sessionStorage.setItem("token", res.data.token);
-        this.$router.push("/home");
-      } else {
-        this.$message({
-          message: res.meta.msg + "",
-          type: "error",
-        });
-      }
-    },
-  },
-};
+    // 处理登录请求
+    sendForm() {
+      // 发送登录请求
+      Request({
+        url: '/authentication/user',
+        method: 'post',
+        data: this.userForm
+      }).then(
+        // 请求成功
+        (response) => {
+          console.log(response)
+          window.localStorage.setItem('token', response.data.tokenId)
+          window.localStorage.setItem('scopeId', response.data.scopeId)
+          this.$message({
+            message: this.userForm.username + ',欢迎登录',
+            type: 'success'
+          })
+          this.$router.push('/home')
+        },
+        // 请求失败发生错误
+        (error) => {
+          console.log(error)
+          // 关闭进度条 显示错误消息
+          NProgress.done()
+          this.$message({
+            message: error,
+            type: 'error'
+          })
+        }
+      )
+    }
+  }
+}
 </script>
 <style scoped>
 .login-view {
-  background-image: url("./asset/login-bg.jpg");
+  background-image: url('./asset/login-bg.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: right top;
