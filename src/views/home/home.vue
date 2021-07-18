@@ -110,7 +110,7 @@
             </li>
           </ul>
         </el-aside>
-        <el-main>
+        <el-main style="padding: 0px">
           <transition name="slide-fade"><router-view /></transition>
         </el-main>
       </el-container>
