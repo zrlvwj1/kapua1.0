@@ -1,0 +1,20 @@
+html,body{
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1.66666667;
+    color: #363636;
+    background-color: #fff;
+    height: 100%;
+}
+*{
+    margin:0px;
+    padding:0px;
+    box-sizing: border-box;
+}
+a{
+    text-decoration: none;
+}
+.cell{
+    color: black;
+    font-size: 16px;
+}
