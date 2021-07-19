@@ -14,6 +14,10 @@ Vue.use(ElementUI)
 //引入字体图标
 import '../public/iconfont/iconfont.css'
 Vue.config.productionTip = false
+//引入iview中的Split
+import 'iview/dist/styles/iview.css'
+import { Split } from 'iview'
+Vue.component('Split', Split)
 
 new Vue({
   router,
